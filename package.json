@@ -1,0 +1,31 @@
+{
+  "name": "E-PFE-Back-End",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --exec babel-node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karamaBattikh/E-PFE-Back-End.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/karamaBattikh/E-PFE-Back-End/issues"
+  },
+  "homepage": "https://github.com/karamaBattikh/E-PFE-Back-End#readme",
+  "devDependencies": {
+    "@babel/core": "^7.10.0",
+    "@babel/node": "^7.8.7",
+    "@babel/preset-env": "^7.10.0",
+    "eslint": "^7.1.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4"
+  }
+}
