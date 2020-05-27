@@ -1,9 +1,9 @@
-import express from 'express';
+import express from 'express'
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 4000
 
-const app = express();
+const app = express()
 
 app.listen(port, () => {
-  console.log(`Server ready at http://localhost:${port}`);
-});
+  console.log(`Server ready at http://localhost:${port}`)
+})
