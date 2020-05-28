@@ -1,15 +1,23 @@
-import { find } from 'lodash'
-import users from './mockData'
+import User from './models/User'
 
 const resolvers = {
   Query: {
-    users: () => {
-      return users
+    users: async () => {
+      const list = await User.find({})
+      return list
     },
-    user: (_, { id }) => {
-      return find(users, (user) => user.id === id)
+    user: async (_, { id }) => {
+      const user = await User.findById(id)
+      return user
     },
   },
-  Mutation: {},
+  Mutation: {
+    createUser: async (_, { input }) => {
+      const newUser = User(input)
+      const result = await newUser.save()
+      if (!result) return { messsage: 'err' }
+      return newUser
+    },
+  },
 }
 export default resolvers
