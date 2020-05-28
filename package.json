@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec babel-node src/index.js",
+    "dev": "nodemon -r dotenv/config --exec babel-node src/index.js",
+    "dev:users": "nodemon -r dotenv/config --exec babel-node src/services/users/index.js",
+    "dev:internships": "nodemon -r dotenv/config --exec babel-node src/services/internships/index.js",
+    "dev:plannings": "nodemon -r dotenv/config --exec babel-node src/services/plannings/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -30,5 +33,9 @@
     "express": "^4.17.1",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5"
+  },
+  "dependencies": {
+    "apollo-server-express": "^2.14.0",
+    "dotenv": "^8.2.0"
   }
 }
