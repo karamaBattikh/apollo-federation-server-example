@@ -1,21 +1,15 @@
 import express from 'express'
-import { ApolloServer, gql } from 'apollo-server-express'
+import { ApolloServer } from 'apollo-server-express'
+import connectMongoose from '../../config/mongoose'
+import typeDefs from './typeDefs'
+import resolvers from './resolvers'
 
 const PORT = process.env.USERS_SERVICE_PORT
+const nameDB = process.env.MONGODB_NAME
+
+connectMongoose(nameDB)
 
 const app = express()
-
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`
-
-const resolvers = {
-  Query: {
-    hello: () => 'Hello world!',
-  },
-}
 
 const server = new ApolloServer({
   typeDefs,
