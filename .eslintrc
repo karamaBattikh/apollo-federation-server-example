@@ -3,7 +3,7 @@
     "es6": true,
     "node": true
   },
-  "extends": ["airbnb-base", "eslint-config-prettier"],
+  "extends": ["eslint:recommended", "airbnb-base", "eslint-config-prettier"],
   "parserOptions": {
     "ecmaVersion": 9,
     "sourceType": "module"

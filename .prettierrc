@@ -4,5 +4,12 @@
   "useTabs": false,
   "semi": false,
   "singleQuote": true,
-  "parser": "flow"
+  "proseWrap": "always",
+  "bracketSpacing": true,
+  "parser": "flow",
+  "endOfLine": "crlf",
+  "fileInfoOptions": {
+    "withNodeModules": true
+  },
+  "withNodeModules": true
 }
