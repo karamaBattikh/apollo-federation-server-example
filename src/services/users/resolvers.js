@@ -18,6 +18,17 @@ const resolvers = {
       if (!result) return { messsage: 'err' }
       return newUser
     },
+    updateUser: async (_, { id, input }) => {
+      const result = await User.findByIdAndUpdate(id, input)
+      if (!result) return { messsage: 'err' }
+      return result
+    },
+    deleteUser: async (_, { id }) => {
+      const user = await User.findById(id)
+      if (!user) return 'User Not Found !'
+      await User.findByIdAndDelete(id)
+      return 'The user was deleted successfully'
+    },
   },
 }
 export default resolvers
