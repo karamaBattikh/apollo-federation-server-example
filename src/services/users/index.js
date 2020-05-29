@@ -5,7 +5,7 @@ import typeDefs from './typeDefs'
 import resolvers from './resolvers'
 
 const PORT = process.env.USERS_SERVICE_PORT
-const nameDB = process.env.MONGODB_NAME
+const nameDB = process.env.USERS_MONGODB_NAME
 
 connectMongoose(nameDB)
 
