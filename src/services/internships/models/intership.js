@@ -22,6 +22,12 @@ const IntershipSchema = new Schema({
   startDate: {
     type: Date,
   },
+  supervisorCompany: {
+    type: String,
+  },
+  supervisorFaculty: {
+    type: String,
+  },
 })
 
 const Internship = mongoose.model('interships', IntershipSchema)
