@@ -1,45 +1,22 @@
-import Planning from './models/planning'
-
 const resolvers = {
   Query: {
-    plannings: () => {
-      return Planning.find({})
+    plannings: (_, arg, { dataSources }) => {
+      return dataSources.planningsAPI.getAllPlannings()
     },
-    planning: async (_, { id }) => {
-      const data = await Planning.findById(id)
+    planning: async (_, { id }, { dataSources }) => {
+      const data = await dataSources.planningsAPI.getPlanningByID(id)
       return data
     },
   },
   Mutation: {
-    createPlanning: async (_, { input }) => {
-      try {
-        const newPlanning = Planning(input)
-        const result = await newPlanning.save()
-        return result
-      } catch (err) {
-        return err
-      }
+    createPlanning: async (_, { input }, { dataSources }) => {
+      return dataSources.planningsAPI.createPlanning(input)
     },
-    updatePlanning: async (_, { id, input }) => {
-      const planning = await Planning.findById(id)
-      if (!planning) return { messagge: 'Planning Not Found!' }
-      try {
-        const result = await Planning.findByIdAndUpdate(id, input)
-        return result
-      } catch (err) {
-        // return err
-        return 'Planning Not Found!'
-      }
+    updatePlanning: async (_, { id, input }, { dataSources }) => {
+      return dataSources.planningsAPI.updatePlanning(id, input)
     },
-    deletePlanning: async (_, { id }) => {
-      const planning = await Planning.findById(id)
-      if (!planning) return 'Planning Not Found!'
-      try {
-        await Planning.findByIdAndDelete(id)
-        return 'The Planning was deleted successfully'
-      } catch (err) {
-        return err
-      }
+    deletePlanning: async (_, { id }, { dataSources }) => {
+      return dataSources.planningsAPI.deletePlanning(id)
     },
   },
 }
