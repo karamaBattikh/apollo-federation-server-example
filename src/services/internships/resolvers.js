@@ -1,31 +1,21 @@
-import Internship from './models/intership'
-
 const resolvers = {
   Query: {
-    internships: async () => {
-      const list = await Internship.find({})
-      return list
+    internships: async (_, args, { dataSources }) => {
+      return dataSources.internshipsAPI.getAllInternships()
     },
-    internship: async (_, { id }) => {
-      const internshhip = await Internship.findById(id)
-      return internshhip
+    internship: async (_, { id }, { dataSources }) => {
+      return dataSources.internshipsAPI.getInternshipByID(id)
     },
   },
   Mutation: {
-    createInternship: async (_, { input }) => {
-      const newInternship = Internship(input)
-      const result = await newInternship.save()
-      return result
+    createInternship: async (_, { input }, { dataSources }) => {
+      return dataSources.internshipsAPI.createInternship(input)
     },
-    updateInternship: async (_, { id, input }) => {
-      const result = await Internship.findByIdAndUpdate(id, input)
-      return result
+    updateInternship: async (_, { id, input }, { dataSources }) => {
+      return dataSources.internshipsAPI.updateInternship(id, input)
     },
-    deleteInternship: async (_, { id }) => {
-      const internship = await Internship.findById(id)
-      if (!internship) return 'Internship not Found!'
-      await Internship.findOneAndDelete(id)
-      return 'The Internship was deleted successfully'
+    deleteInternship: async (_, { id }, { dataSources }) => {
+      return dataSources.internshipsAPI.deleteInternship(id)
     },
   },
 }

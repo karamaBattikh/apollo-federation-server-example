@@ -1,33 +1,21 @@
-import User from './models/User'
-
 const resolvers = {
   Query: {
-    users: async () => {
-      const list = await User.find({})
-      return list
+    users: async (_, arg, { dataSource }) => {
+      return dataSource.usersAPI.getAllUser()
     },
-    user: async (_, { id }) => {
-      const user = await User.findById(id)
-      return user
+    user: async (_, { id }, { dataSource }) => {
+      return dataSource.usersAPI.getUserByID(id)
     },
   },
   Mutation: {
-    createUser: async (_, { input }) => {
-      const newUser = User(input)
-      const result = await newUser.save()
-      if (!result) return { messsage: 'err' }
-      return newUser
+    createUser: async (_, { input }, { dataSource }) => {
+      return dataSource.usersAPI.createUser(input)
     },
-    updateUser: async (_, { id, input }) => {
-      const result = await User.findByIdAndUpdate(id, input)
-      if (!result) return { messsage: 'err' }
-      return result
+    updateUser: async (_, { id, input }, { dataSource }) => {
+      return dataSource.usersAPI.updateUser(id, input)
     },
-    deleteUser: async (_, { id }) => {
-      const user = await User.findById(id)
-      if (!user) return 'User Not Found !'
-      await User.findByIdAndDelete(id)
-      return 'The user was deleted successfully'
+    deleteUser: async (_, { id }, { dataSource }) => {
+      return dataSource.usersAPI.deleteUser(id)
     },
   },
 }
