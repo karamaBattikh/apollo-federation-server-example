@@ -9,9 +9,9 @@ const typeDefs = gql`
 
   type User {
     id: ID
-    firstName: String!
+    firstName: String
     lastName: String
-    email: String!
+    email: String
     password: String
     address: String
     phone: Int
@@ -29,14 +29,24 @@ const typeDefs = gql`
     level: String
   }
 
+  type SuccessMessage {
+    message: String
+  }
+
+  type ErrorsMessage {
+    errors: String
+  }
+
+  union UserResult = User | SuccessMessage | ErrorsMessage
+
   type Query {
     users: [User]
-    user(id: String!): User
+    user(id: String!): UserResult
   }
 
   type Mutation {
-    createUser(input: UserInput): User
-    updateUser(input: UserInput, id: String!): User
+    createUser(input: UserInput): UserResult
+    updateUser(input: UserInput, id: String!): UserResult
     deleteUser(id: String!): String
   }
 `
