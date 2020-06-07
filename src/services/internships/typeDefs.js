@@ -24,15 +24,25 @@ const typeDefs = gql`
     startDate: Date
   }
 
+  type SuccessMessage {
+    message: String
+  }
+
+  type ErrorsMessage {
+    errors: String
+  }
+
+  union InternshipResult = Internship | SuccessMessage | ErrorsMessage
+
   type Query {
     internships: [Internship]
-    internship(id: String): Internship
+    internship(id: String): InternshipResult
   }
 
   type Mutation {
-    createInternship(input: InternshipInput): Internship
-    updateInternship(id: String, input: InternshipInput): Internship
-    deleteInternship(id: String): String
+    createInternship(input: InternshipInput): InternshipResult
+    updateInternship(id: String, input: InternshipInput): InternshipResult
+    deleteInternship(id: String): InternshipResult
   }
 `
 
