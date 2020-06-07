@@ -22,15 +22,25 @@ const typeDefs = gql`
     note: Int
   }
 
+  type SuccessMessage {
+    message: String
+  }
+
+  type ErrorsMessage {
+    errors: String
+  }
+
+  union PlanningResult = Planning | SuccessMessage | ErrorsMessage
+
   type Query {
     plannings: [Planning]
-    planning(id: String!): Planning
+    planning(id: String!): PlanningResult
   }
 
   type Mutation {
-    createPlanning(input: PlanningInput): Planning
-    updatePlanning(id: String!, input: PlanningInput): Planning
-    deletePlanning(id: String!): String
+    createPlanning(input: PlanningInput): PlanningResult
+    updatePlanning(id: String!, input: PlanningInput): PlanningResult
+    deletePlanning(id: String!): PlanningResult
   }
 `
 export default typeDefs
