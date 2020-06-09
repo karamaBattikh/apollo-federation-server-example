@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-express'
+import { gql } from 'apollo-server'
 
 const typeDefs = gql`
   scalar Date
@@ -32,12 +32,12 @@ const typeDefs = gql`
 
   union PlanningResult = Planning | SuccessMessage | ErrorsMessage
 
-  type Query {
+  extend type Query {
     plannings: [Planning]
     planning(id: String!): PlanningResult
   }
 
-  type Mutation {
+  extend type Mutation {
     createPlanning(input: PlanningInput): PlanningResult
     updatePlanning(id: String!, input: PlanningInput): PlanningResult
     deletePlanning(id: String!): PlanningResult

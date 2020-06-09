@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-express'
+import { gql } from 'apollo-server'
 
 const typeDefs = gql`
   scalar Date
@@ -34,12 +34,12 @@ const typeDefs = gql`
 
   union InternshipResult = Internship | SuccessMessage | ErrorsMessage
 
-  type Query {
+  extend type Query {
     internships: [Internship]
     internship(id: String): InternshipResult
   }
 
-  type Mutation {
+  extend type Mutation {
     createInternship(input: InternshipInput): InternshipResult
     updateInternship(id: String, input: InternshipInput): InternshipResult
     deleteInternship(id: String): InternshipResult

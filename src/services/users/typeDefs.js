@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-express'
+import { gql } from 'apollo-server'
 
 const typeDefs = gql`
   enum ROLE {
@@ -39,12 +39,12 @@ const typeDefs = gql`
 
   union UserResult = User | SuccessMessage | ErrorsMessage
 
-  type Query {
+  extend type Query {
     users: [User]
     user(id: String!): UserResult
   }
 
-  type Mutation {
+  extend type Mutation {
     createUser(input: UserInput): UserResult
     updateUser(input: UserInput, id: String!): UserResult
     deleteUser(id: String!): String
