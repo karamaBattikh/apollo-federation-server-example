@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon -r dotenv/config --exec babel-node src/index.js",
+    "dev": "concurrently -k yarn:dev:*",
     "dev:users": "nodemon -r dotenv/config --exec babel-node src/services/users/index.js",
     "dev:internships": "nodemon -r dotenv/config --exec babel-node src/services/internships/index.js",
     "dev:plannings": "nodemon -r dotenv/config --exec babel-node src/services/plannings/index.js",
+    "dev:gateway": "wait-on tcp:4001 tcp:4002 tcp:4003 && nodemon -r dotenv/config --exec babel-node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -35,11 +36,15 @@
     "prettier": "^2.0.5"
   },
   "dependencies": {
+    "@apollo/federation": "^0.16.4",
+    "@apollo/gateway": "0.13.2",
     "apollo-datasource": "^0.7.1",
-    "apollo-server": "^2.14.0",
+    "apollo-server": "^2.14.2",
     "apollo-server-express": "^2.14.0",
+    "concurrently": "^5.2.0",
     "dotenv": "^8.2.0",
     "lodash": "^4.17.15",
-    "mongoose": "^5.9.16"
+    "mongoose": "^5.9.16",
+    "wait-on": "^5.0.1"
   }
 }

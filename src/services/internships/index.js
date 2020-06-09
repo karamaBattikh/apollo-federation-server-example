@@ -1,5 +1,5 @@
-import express from 'express'
-import { ApolloServer } from 'apollo-server-express'
+import { ApolloServer } from 'apollo-server'
+import { buildFederatedSchema } from '@apollo/federation'
 import typeDefs from './typeDefs'
 import resolvers from './resolvers'
 import connectMongoose from '../../config/mongoose'
@@ -11,18 +11,13 @@ const nameDB = process.env.INTERNSHIPS_MONGODB_NAME
 
 connectMongoose(nameDB)
 
-const app = express()
-
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+  schema: buildFederatedSchema([{ typeDefs, resolvers }]),
   dataSources: () => ({
     internshipsAPI: new InternshipsDataSource(Internship),
   }),
 })
 
-server.applyMiddleware({ app })
-
-app.listen({ port: PORT }, () => {
+server.listen({ port: PORT }, () => {
   console.log(`Internships service 🚀 ready at ${PORT} `)
 })
