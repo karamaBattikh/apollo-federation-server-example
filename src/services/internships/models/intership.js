@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 
 const IntershipSchema = new Schema({
-  title: {
+  subject: {
     type: String,
   },
   duration: {
@@ -27,6 +27,16 @@ const IntershipSchema = new Schema({
   },
   supervisorFaculty: {
     type: String,
+  },
+  status: {
+    type: String,
+    enum: ['opened', 'closed'],
+  },
+  studentAccepted: {
+    type: Schema.Types.ObjectId,
+  },
+  candidates: {
+    type: [Schema.Types.ObjectId],
   },
 })
 

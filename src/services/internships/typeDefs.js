@@ -2,26 +2,45 @@ import { gql } from 'apollo-server'
 
 const typeDefs = gql`
   scalar Date
+  enum STATUS {
+    opened
+    closed
+  }
 
-  type Internship {
-    id: ID!
-    title: String
+  type Internship @key(fields: "id") {
+    id: String!
+    subject: String
     duration: String
     location: String
     level: String
     keyword: String
     description: String
     startDate: Date
+    status: STATUS
+    supervisorCompany: String
+    supervisorFaculty: String
   }
 
   input InternshipInput {
-    title: String
+    subject: String
     duration: String
     location: String
     level: String
     keyword: String
     description: String
     startDate: Date
+    status: STATUS
+    supervisorCompany: String
+    supervisorFaculty: String
+  }
+
+  type InternshipsParticipated {
+    internship: Internship
+    accepted: Boolean
+  }
+  extend type User @key(fields: "id") {
+    id: String! @external
+    internshipsParticipated: [InternshipsParticipated]
   }
 
   type SuccessMessage {

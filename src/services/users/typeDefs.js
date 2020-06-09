@@ -7,8 +7,8 @@ const typeDefs = gql`
     company
   }
 
-  type User {
-    id: ID
+  type User @key(fields: "id") {
+    id: String!
     firstName: String
     lastName: String
     email: String
@@ -27,6 +27,12 @@ const typeDefs = gql`
     phone: Int
     role: ROLE
     level: String
+  }
+
+  extend type Internship @key(fields: "id") {
+    id: String! @external
+    studentAccepted: User
+    candidates: [User]
   }
 
   type SuccessMessage {

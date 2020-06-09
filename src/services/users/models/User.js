@@ -1,5 +1,14 @@
 import mongoose, { Schema } from 'mongoose'
 
+const internshipSchema = new Schema({
+  internship: {
+    type: Schema.Types.ObjectId,
+  },
+  accepted: {
+    type: Boolean,
+  },
+})
+
 const userSchema = new Schema({
   firstName: {
     type: String,
@@ -26,6 +35,9 @@ const userSchema = new Schema({
   },
   level: {
     type: String,
+  },
+  internshipsParticipated: {
+    type: [internshipSchema],
   },
 })
 
