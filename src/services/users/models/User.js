@@ -20,9 +20,6 @@ const userSchema = new Schema({
     type: String,
     unique: true,
   },
-  password: {
-    type: String,
-  },
   address: {
     type: String,
   },
@@ -31,7 +28,7 @@ const userSchema = new Schema({
   },
   role: {
     type: Number,
-    enum: ['admin', 'company', 'student'],
+    enum: ['admin', 'student'],
   },
   level: {
     type: String,

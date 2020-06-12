@@ -4,7 +4,6 @@ const typeDefs = gql`
   enum ROLE {
     admin
     student
-    company
   }
 
   type User @key(fields: "id") {
@@ -12,7 +11,6 @@ const typeDefs = gql`
     firstName: String
     lastName: String
     email: String
-    password: String
     address: String
     phone: Int
     role: ROLE
