@@ -12,18 +12,24 @@ class UsersDataSource extends DataSource {
     return list
   }
 
+  async getUserByIDs(ids) {
+    const list = await this.User.find({ id: { $in: ids } })
+    return list
+  }
+
   async getUserByID(id) {
     const user = await this.User.findById(id)
-    if (!user) {
-      return {
-        __typename: 'ErrorsMessage',
-        errors: 'User Not Found !',
-      }
-    }
-    return {
-      __typename: 'User',
-      ...omit(user, '__v'),
-    }
+    return user
+    // if (!user) {
+    //   return {
+    //     __typename: 'ErrorsMessage',
+    //     errors: 'User Not Found !',
+    //   }
+    // }
+    // return {
+    //   __typename: 'User',
+    //   ...omit(user, '__v'),
+    // }
   }
 
   async createUser(input) {
@@ -75,6 +81,22 @@ class UsersDataSource extends DataSource {
       __typename: 'SuccessMessage',
       message: 'The user was deleted successfully',
     }
+  }
+
+  async getUserForStudentAccepted(id) {
+    const list = await this.User.find({
+      'internshipsParticipated.internship': id,
+      accepted: true,
+    })
+    return list
+  }
+
+  async getUserForCandidates(id) {
+    const list = await this.User.find({
+      internshipsParticipated: id,
+    })
+    console.log('UsersDataSource -> getUserForCandidates -> list', list)
+    return list
   }
 }
 

@@ -1,4 +1,19 @@
+/* eslint-disable no-underscore-dangle */
+
 const resolvers = {
+  Internship: {
+    __resolveReference(reference, { dataSources }) {
+      return dataSources.internshipsAPI.getInternshipByID(reference.id)
+    },
+  },
+  User: {
+    async internshipsParticipated(user, args, { dataSources }) {
+      const list = await dataSources.internshipsAPI.getInternshipByCandidate(
+        user.id,
+      )
+      return list
+    },
+  },
   Query: {
     internships: async (_, args, { dataSources }) => {
       return dataSources.internshipsAPI.getAllInternships()

@@ -1,5 +1,14 @@
 import mongoose, { Schema } from 'mongoose'
 
+const CandidateSchema = new Schema({
+  candidate: {
+    type: String,
+  },
+  accepted: {
+    type: Boolean,
+  },
+})
+
 const IntershipSchema = new Schema({
   subject: {
     type: String,
@@ -31,12 +40,13 @@ const IntershipSchema = new Schema({
   status: {
     type: String,
     enum: ['opened', 'closed'],
+    default: 'opened',
   },
   studentAccepted: {
-    type: Schema.Types.ObjectId,
+    type: String,
   },
   candidates: {
-    type: [Schema.Types.ObjectId],
+    type: [CandidateSchema],
   },
 })
 

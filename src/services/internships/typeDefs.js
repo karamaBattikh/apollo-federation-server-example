@@ -8,7 +8,7 @@ const typeDefs = gql`
   }
 
   type Internship @key(fields: "id") {
-    id: String!
+    id: String
     subject: String
     duration: String
     location: String
@@ -34,13 +34,9 @@ const typeDefs = gql`
     supervisorFaculty: String
   }
 
-  type InternshipsParticipated {
-    internship: Internship
-    accepted: Boolean
-  }
   extend type User @key(fields: "id") {
-    id: String! @external
-    internshipsParticipated: [InternshipsParticipated]
+    id: String @external
+    internshipsParticipated: [Internship]
   }
 
   type SuccessMessage {
@@ -55,7 +51,7 @@ const typeDefs = gql`
 
   extend type Query {
     internships: [Internship]
-    internship(id: String): InternshipResult
+    internship(id: String): Internship
   }
 
   extend type Mutation {

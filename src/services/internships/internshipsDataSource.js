@@ -1,5 +1,5 @@
 import { DataSource } from 'apollo-datasource'
-import { omit } from 'lodash'
+import { omit, map } from 'lodash'
 
 class InternshipsDataSource extends DataSource {
   constructor(Internship) {
@@ -10,6 +10,20 @@ class InternshipsDataSource extends DataSource {
   async getAllInternships() {
     const list = await this.Internship.find({})
     return list
+  }
+
+  async getInternshipByCandidate(id) {
+    const internships = await this.Internship.find({
+      'candidates.candidate': id,
+    })
+    const result = map(internships, (item) => {
+      if (item.studentAccepted === id) {
+        return { ...omit(item, ['__v', 'candidates']), accepted: true }
+      } else {
+        return { ...omit(item, ['__v', 'candidates']), accepted: false }
+      }
+    })
+    return result
   }
 
   async getInternshipByID(id) {

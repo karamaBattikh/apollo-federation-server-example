@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const resolvers = {
   UserResult: {
     __resolveType: (objet) => {
@@ -11,6 +12,20 @@ const resolvers = {
         return 'SuccessMessage'
       }
       return null
+    },
+  },
+  User: {
+    __resolveReference(reference, { dataSources }) {
+      const ref = dataSources.usersAPI.getUserByID(reference.id)
+      return ref
+    },
+  },
+  Internship: {
+    studentAccepted(internship, arg, { dataSources }) {
+      return dataSources.usersAPI.getUserForStudentAccepted(internship.id)
+    },
+    candidates(internship, arg, { dataSources }) {
+      return dataSources.usersAPI.getUserForCandidates(internship.id)
     },
   },
   Query: {
