@@ -2,8 +2,16 @@ import { gql } from 'apollo-server'
 
 const typeDefs = gql`
   enum ROLE {
-    admin
+    faculty_manager
     student
+    company_manager
+  }
+
+  enum LEVEL {
+    engineer
+    license
+    professional_master
+    research_master
   }
 
   type User {
@@ -14,7 +22,10 @@ const typeDefs = gql`
     address: String
     phone: Int
     role: ROLE
-    level: String
+    level: LEVEL
+    companyName: String
+    facultyName: String
+    description: String
   }
 
   input UserInput {
@@ -24,7 +35,10 @@ const typeDefs = gql`
     address: String
     phone: Int
     role: ROLE
-    level: String
+    level: LEVEL
+    companyName: String
+    facultyName: String
+    description: String
   }
 
   type SuccessMessage {
