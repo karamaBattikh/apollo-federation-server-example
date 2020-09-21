@@ -15,6 +15,10 @@ const gateway = new ApolloGateway({
       name: 'plannings',
       url: `http://localhost:${process.env.PLANNINGS_SERVICE_PORT}`,
     },
+    {
+      name: 'candidates',
+      url: `http://localhost:${process.env.CANDIDATE_SERVICE_PORT}`,
+    },
   ],
 })
 
