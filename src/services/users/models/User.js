@@ -18,10 +18,20 @@ const userSchema = new Schema({
     type: String,
   },
   role: {
-    type: Number,
-    enum: ['admin', 'student'],
+    type: String,
+    enum: ['faculty_manager', 'student', 'company_manager'],
   },
   level: {
+    type: String,
+    enum: ['engineer', 'license', 'professional_master', 'research_master'],
+  },
+  companyName: {
+    type: String,
+  },
+  facultyName: {
+    type: String,
+  },
+  description: {
     type: String,
   },
 })
