@@ -13,6 +13,12 @@ const resolvers = {
       return null
     },
   },
+  User: {
+    __resolveReference(reference, { dataSources }) {
+      const ref = dataSources.usersAPI.getUserByID(reference.id)
+      return ref
+    },
+  },
   Query: {
     users: async (_, arg, { dataSources }) => {
       return dataSources.usersAPI.getAllUser()

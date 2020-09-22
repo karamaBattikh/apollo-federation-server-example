@@ -14,11 +14,11 @@ const typeDefs = gql`
     research_master
   }
 
-  type User {
+  type User @key(fields: "id") {
     id: ID
     firstName: String
     lastName: String
-    email: String
+    email: String!
     address: String
     phone: Int
     role: ROLE
@@ -31,7 +31,7 @@ const typeDefs = gql`
   input UserInput {
     firstName: String
     lastName: String
-    email: String
+    email: String!
     address: String
     phone: Int
     role: ROLE
@@ -53,13 +53,13 @@ const typeDefs = gql`
 
   extend type Query {
     users: [User]
-    user(id: String!): UserResult
+    user(id: ID!): UserResult
   }
 
   extend type Mutation {
     createUser(input: UserInput): UserResult
-    updateUser(input: UserInput, id: String!): UserResult
-    deleteUser(id: String!): String
+    updateUser(input: UserInput, id: ID!): UserResult
+    deleteUser(id: ID!): String
   }
 `
 

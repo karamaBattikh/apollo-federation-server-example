@@ -3,25 +3,35 @@ import { gql } from 'apollo-server'
 const typeDefs = gql`
   scalar Date
 
-  type Internship {
-    id: ID!
-    title: String
+  enum STATUS_INTERNSHIP {
+    opened
+    closed
+  }
+
+  type Internship @key(fields: "id") {
+    id: ID
+    subject: String
     duration: String
-    location: String
     level: String
     keyword: String
     description: String
     startDate: Date
+    status: STATUS_INTERNSHIP
+    supervisorCompany: String
+    supervisorFaculty: String
   }
 
   input InternshipInput {
-    title: String
+    subject: String
     duration: String
     location: String
     level: String
     keyword: String
     description: String
     startDate: Date
+    status: STATUS_INTERNSHIP
+    supervisorCompany: String
+    supervisorFaculty: String
   }
 
   type SuccessMessage {
@@ -36,13 +46,13 @@ const typeDefs = gql`
 
   extend type Query {
     internships: [Internship]
-    internship(id: String): InternshipResult
+    internship(id: ID!): InternshipResult
   }
 
   extend type Mutation {
     createInternship(input: InternshipInput): InternshipResult
-    updateInternship(id: String, input: InternshipInput): InternshipResult
-    deleteInternship(id: String): InternshipResult
+    updateInternship(id: ID!, input: InternshipInput): InternshipResult
+    deleteInternship(id: ID!): InternshipResult
   }
 `
 

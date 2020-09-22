@@ -5,13 +5,24 @@ const typeDefs = gql`
     refuse
     interview
     accept
+    untreated
   }
 
-  type Candidate {
+  type Candidate @key(fields: "id") {
     id: ID
-    student: String
-    internship: String
+    student: User @provides(fields: "id")
+    internship: Internship @provides(fields: "id")
     status: STATUS
+  }
+
+  extend type User @key(fields: "id") {
+    id: ID @external
+    candidates: [Candidate]
+  }
+
+  extend type Internship @key(fields: "id") {
+    id: ID @external
+    candidates: [Candidate]
   }
 
   input CandidateInput {
@@ -32,13 +43,13 @@ const typeDefs = gql`
 
   extend type Query {
     candidates: [Candidate]
-    candidate(id: String!): CandidateResult
+    candidate(id: ID!): CandidateResult
   }
 
   extend type Mutation {
     createCandidate(input: CandidateInput): CandidateResult
-    updateCandidate(input: CandidateInput, id: String!): CandidateResult
-    deleteCandidate(id: String!): String
+    updateCandidate(input: CandidateInput, id: ID!): CandidateResult
+    deleteCandidate(id: ID!): String
   }
 `
 
