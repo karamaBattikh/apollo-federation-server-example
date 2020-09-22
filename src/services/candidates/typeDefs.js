@@ -5,13 +5,24 @@ const typeDefs = gql`
     refuse
     interview
     accept
+    untreated
   }
 
-  type Candidate {
+  type Candidate @key(fields: "id") {
     id: ID
-    student: String
-    internship: String
+    student: User
+    internship: Internship
     status: STATUS
+  }
+
+  extend type User @key(fields: "id") {
+    id: String @external
+    candidates: [Candidate]
+  }
+
+  extend type Internship @key(fields: "id") {
+    id: String @external
+    candidates: [Candidate]
   }
 
   input CandidateInput {

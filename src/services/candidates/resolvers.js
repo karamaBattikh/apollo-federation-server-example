@@ -1,4 +1,9 @@
 const resolvers = {
+  Candidate: {
+    __resolveReference(reference, { dataSources }) {
+      return dataSources.candidatesAPI.getCandidateByID(reference.id)
+    },
+  },
   Query: {
     candidates: async (_, arg, { dataSources }) => {
       return dataSources.candidatesAPI.getAllCandidate()

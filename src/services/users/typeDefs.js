@@ -14,7 +14,7 @@ const typeDefs = gql`
     research_master
   }
 
-  type User {
+  type User @key(fields: "id") {
     id: ID
     firstName: String
     lastName: String

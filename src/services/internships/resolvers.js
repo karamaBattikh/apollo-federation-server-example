@@ -1,4 +1,9 @@
 const resolvers = {
+  Internship: {
+    __resolveReference(reference, { dataSources }) {
+      return dataSources.internshipsAPI.getInternshipByID(reference.id)
+    },
+  },
   Query: {
     internships: async (_, args, { dataSources }) => {
       return dataSources.internshipsAPI.getAllInternships()
