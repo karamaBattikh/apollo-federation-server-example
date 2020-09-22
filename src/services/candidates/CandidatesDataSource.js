@@ -26,6 +26,20 @@ class CandidatesDataSource extends DataSource {
     }
   }
 
+  async getCandidateByStudent(idStudent) {
+    const candidates = await this.Candidate.find({
+      student: idStudent,
+    })
+    return candidates
+  }
+
+  async getCandidateByInternship(idStudent) {
+    const candidates = await this.Candidate.find({
+      internship: idStudent,
+    })
+    return candidates
+  }
+
   async createCandidate(input) {
     const newCandidate = this.Candidate(input)
     const result = await newCandidate.save()
