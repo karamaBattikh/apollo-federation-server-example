@@ -15,23 +15,27 @@ import {
 const PORT = process.env.CANDIDATES_SERVICE_PORT
 const nameDB = process.env.CANDIDATES_MONGODB_NAME
 
-connectMongoose(nameDB)
 ;(async () => {
+  connectMongoose(nameDB)
+
   const deleteUserQueue = await initDeleteUserQueue()
   const deleteCandidateQueue = await initDeleteCandidateQueue()
 
   deleteUserQueue.listen({ interval: 5000, maxReceivedCount: 5 }, (payload) => {
     onDeleteUser(payload, deleteCandidateQueue)
   })
+
+  const server = new ApolloServer({
+    schema: buildFederatedSchema([{ typeDefs, resolvers }]),
+    dataSources: () => ({
+      candidatesAPI: new CandidatesDataSource(Candidate),
+    }),
+    context: () => ({
+      queues: { deleteCandidateQueue },
+    }),
+  })
+
+  server.listen({ port: PORT }, () => {
+    console.log(`Candidates service 🚀 ready at ${PORT} `)
+  })
 })()
-
-const server = new ApolloServer({
-  schema: buildFederatedSchema([{ typeDefs, resolvers }]),
-  dataSources: () => ({
-    candidatesAPI: new CandidatesDataSource(Candidate),
-  }),
-})
-
-server.listen({ port: PORT }, () => {
-  console.log(`Candidates service 🚀 ready at ${PORT} `)
-})
