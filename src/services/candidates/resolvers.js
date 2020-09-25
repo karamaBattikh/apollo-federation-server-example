@@ -1,6 +1,6 @@
 const resolvers = {
   Candidate: {
-    __resolveReference(reference, { dataSources }) {
+    __resolveReference: async (reference, { dataSources }) => {
       return dataSources.candidatesAPI.getCandidateByID(reference.id)
     },
     student(candidate) {

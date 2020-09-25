@@ -1,6 +1,7 @@
 import { ApolloServer } from 'apollo-server'
 import { buildFederatedSchema } from '@apollo/federation'
 import connectMongoose from '../../config/mongoose'
+import initDeleteUserQueue from './queues'
 import typeDefs from './typeDefs'
 import resolvers from './resolvers'
 import UsersDataSource from './usersDataSource'
@@ -16,6 +17,10 @@ const server = new ApolloServer({
   dataSources: () => ({
     usersAPI: new UsersDataSource(User),
   }),
+  context: async () => {
+    const deleteUserQueue = await initDeleteUserQueue()
+    return { queues: { deleteUserQueue } }
+  },
 })
 
 server.listen({ port: PORT }, () => {
