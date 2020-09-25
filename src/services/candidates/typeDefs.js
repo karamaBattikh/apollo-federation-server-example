@@ -49,7 +49,7 @@ const typeDefs = gql`
   extend type Mutation {
     createCandidate(input: CandidateInput): CandidateResult
     updateCandidate(input: CandidateInput, id: ID!): CandidateResult
-    deleteCandidate(id: ID!): String
+    deleteCandidate(id: ID!): CandidateResult
   }
 `
 

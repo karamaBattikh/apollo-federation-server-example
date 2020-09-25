@@ -41,8 +41,11 @@ const resolvers = {
     updateCandidate: async (_, { id, input }, { dataSources }) => {
       return dataSources.candidatesAPI.updateCandidate(id, input)
     },
-    deleteCandidate: async (_, { id }, { dataSources }) => {
-      return dataSources.candidatesAPI.deleteCandidate(id)
+    deleteCandidate: async (_, { id }, { dataSources, queues }) => {
+      await queues.deleteCandidateQueue.sendMessage(
+        JSON.stringify({ candidateId: id }),
+      )
+      // return dataSources.candidatesAPI.deleteCandidate(id)
     },
   },
 }
