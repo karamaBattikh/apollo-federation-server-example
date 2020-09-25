@@ -14,7 +14,7 @@ const resolvers = {
     },
   },
   User: {
-    __resolveReference(reference, { dataSources }) {
+    __resolveReference: (reference, { dataSources }) => {
       const ref = dataSources.usersAPI.getUserByID(reference.id)
       return ref
     },
@@ -34,8 +34,10 @@ const resolvers = {
     updateUser: async (_, { id, input }, { dataSources }) => {
       return dataSources.usersAPI.updateUser(id, input)
     },
-    deleteUser: async (_, { id }, { dataSources }) => {
-      return dataSources.usersAPI.deleteUser(id)
+    deleteUser: async (_, { id }, { dataSources, queues }) => {
+      await queues.deleteUserQueue.sendMessage(JSON.stringify({ userId: id }))
+      return true
+      // return dataSources.usersAPI.deleteUser(id)
     },
   },
 }
