@@ -34,9 +34,6 @@ const userSchema = new Schema({
   description: {
     type: String,
   },
-  candidates: {
-    type: [Schema.Types.ObjectId],
-  },
 })
 
 const User = mongoose.model('users', userSchema)

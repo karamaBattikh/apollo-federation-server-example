@@ -1,6 +1,6 @@
 const resolvers = {
   Internship: {
-    __resolveReference(reference, { dataSources }) {
+    __resolveReference: (reference, { dataSources }) => {
       return dataSources.internshipsAPI.getInternshipByID(reference.id)
     },
   },
