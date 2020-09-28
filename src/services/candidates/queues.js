@@ -1,7 +1,7 @@
 import { reduce } from 'lodash'
 import { redisSMQ } from '../../config/redisSMQ'
-import Candidate from './models/Candidate'
 import Queue from '../../lib/Queue'
+import Candidate from './models/Candidate'
 
 export const initDeleteUserQueue = async () => {
   const deleteUserQueue = new Queue(redisSMQ, 'user_deleted')
@@ -9,13 +9,13 @@ export const initDeleteUserQueue = async () => {
   return deleteUserQueue
 }
 
-export const initDeleteCandidateQueue = async () => {
-  const deleteCandidateQueue = new Queue(redisSMQ, 'candidate_deleted')
-  await deleteCandidateQueue.createQueue()
-  return deleteCandidateQueue
+export const initDeleteInternshipQueue = async () => {
+  const deleteInternshipQueue = new Queue(redisSMQ, 'internship_deleted')
+  await deleteInternshipQueue.createQueue()
+  return deleteInternshipQueue
 }
 
-export const onDeleteUser = async (payload, deleteCandidateQueue) => {
+export const onDeleteUser = async (payload) => {
   const { userId } = JSON.parse(payload.message)
   let candidateList = []
 
@@ -29,13 +29,12 @@ export const onDeleteUser = async (payload, deleteCandidateQueue) => {
       },
       [],
     )
+    console.log('onDeleteUser -> candidateList', candidateList)
   })
+}
 
-  if (candidateList.length > 0) {
-    deleteCandidateQueue.sendMessage(
-      JSON.stringify({
-        candidateListID: candidateList,
-      }),
-    )
-  }
+export const onDeleteInternship = async (payload) => {
+  const { internshipId } = JSON.parse(payload.message)
+
+  await Candidate.deleteMany({ internship: internshipId })
 }
