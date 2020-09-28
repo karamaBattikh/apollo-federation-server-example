@@ -19,7 +19,10 @@ const resolvers = {
     updateInternship: async (_, { id, input }, { dataSources }) => {
       return dataSources.internshipsAPI.updateInternship(id, input)
     },
-    deleteInternship: async (_, { id }, { dataSources }) => {
+    deleteInternship: async (_, { id }, { dataSources, queues }) => {
+      await queues.deleteInternshipQueue.sendMessage(
+        JSON.stringify({ internshipId: id }),
+      )
       return dataSources.internshipsAPI.deleteInternship(id)
     },
   },

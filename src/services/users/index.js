@@ -5,11 +5,7 @@ import typeDefs from './typeDefs'
 import resolvers from './resolvers'
 import UsersDataSource from './usersDataSource'
 import User from './models/User'
-import {
-  initDeleteUserQueue,
-  initDeleteCandidateQueue,
-  onDeleteCandidate,
-} from './queues'
+import initDeleteUserQueue from './queues'
 
 const PORT = process.env.USERS_SERVICE_PORT
 const nameDB = process.env.USERS_MONGODB_NAME
@@ -18,19 +14,13 @@ const nameDB = process.env.USERS_MONGODB_NAME
   connectMongoose(nameDB)
 
   const deleteUserQueue = await initDeleteUserQueue()
-  const deleteCandidateQueue = await initDeleteCandidateQueue()
-
-  deleteCandidateQueue.listen(
-    { interval: 5000, maxReceivedCount: 5 },
-    (payload) => onDeleteCandidate(payload),
-  )
 
   const server = new ApolloServer({
     schema: buildFederatedSchema([{ typeDefs, resolvers }]),
     dataSources: () => ({
       usersAPI: new UsersDataSource(User),
     }),
-    context: async () => ({
+    context: () => ({
       queues: { deleteUserQueue },
     }),
   })
