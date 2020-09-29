@@ -10,14 +10,23 @@ const planningSchema = new Schema({
   duration: {
     type: String,
   },
+  note: {
+    type: Number,
+  },
   reporter: {
     type: String,
   },
   jury: {
     type: String,
   },
-  note: {
-    type: Number,
+  supervisorFaculty: {
+    type: String,
+  },
+  student: {
+    type: Schema.Types.ObjectId,
+  },
+  internship: {
+    type: Schema.Types.ObjectId,
   },
 })
 

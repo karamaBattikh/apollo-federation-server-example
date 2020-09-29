@@ -36,8 +36,7 @@ const resolvers = {
     },
     deleteUser: async (_, { id }, { dataSources, queues }) => {
       await queues.deleteUserQueue.sendMessage(JSON.stringify({ userId: id }))
-      return true
-      // return dataSources.usersAPI.deleteUser(id)
+      return dataSources.usersAPI.deleteUser(id)
     },
   },
 }

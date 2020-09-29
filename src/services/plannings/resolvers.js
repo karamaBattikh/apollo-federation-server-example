@@ -1,4 +1,16 @@
 const resolvers = {
+  Planning: {
+    __resolveReference: (reference, { dataSources }) => {
+      const ref = dataSources.planningsAPI.getPlanningByID(reference.id)
+      return ref
+    },
+    student: (planning) => {
+      return { __typename: 'User', id: planning.student }
+    },
+    internship(planning) {
+      return { __typename: 'Internship', id: planning.internship }
+    },
+  },
   Query: {
     plannings: (_, arg, { dataSources }) => {
       return dataSources.planningsAPI.getAllPlannings()

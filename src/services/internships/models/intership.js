@@ -22,9 +22,6 @@ const IntershipSchema = new Schema({
   supervisorCompany: {
     type: String,
   },
-  supervisorFaculty: {
-    type: String,
-  },
 })
 
 const Internship = mongoose.model('interships', IntershipSchema)
