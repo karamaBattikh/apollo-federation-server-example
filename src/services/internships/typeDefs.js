@@ -18,7 +18,6 @@ const typeDefs = gql`
     startDate: Date
     status: STATUS_INTERNSHIP
     supervisorCompany: String
-    supervisorFaculty: String
   }
 
   input InternshipInput {
@@ -31,7 +30,6 @@ const typeDefs = gql`
     startDate: Date
     status: STATUS_INTERNSHIP
     supervisorCompany: String
-    supervisorFaculty: String
   }
 
   type SuccessMessage {
