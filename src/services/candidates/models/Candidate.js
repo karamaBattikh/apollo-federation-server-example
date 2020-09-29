@@ -9,7 +9,7 @@ const candidateSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['refuse', 'interview', 'accept', 'untreated'],
+    enum: ['refuse', 'interview', 'accept', 'untreated', 'final_acceptance'],
     default: 'untreated',
   },
 })

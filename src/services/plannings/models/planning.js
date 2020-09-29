@@ -22,10 +22,7 @@ const planningSchema = new Schema({
   supervisorFaculty: {
     type: String,
   },
-  student: {
-    type: Schema.Types.ObjectId,
-  },
-  internship: {
+  candidate: {
     type: Schema.Types.ObjectId,
   },
 })

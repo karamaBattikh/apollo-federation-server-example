@@ -12,15 +12,10 @@ const typeDefs = gql`
     reporter: String
     jury: String
     supervisorFaculty: String
-    student: User @provides(fields: "id")
-    internship: Internship @provides(fields: "id")
+    candidate: Candidate @provides(fields: "id")
   }
 
-  extend type User @key(fields: "id") {
-    id: ID @external
-  }
-
-  extend type Internship @key(fields: "id") {
+  extend type Candidate @key(fields: "id") {
     id: ID @external
   }
 
@@ -32,8 +27,7 @@ const typeDefs = gql`
     reporter: String
     jury: String
     supervisorFaculty: String
-    internship: String
-    student: String
+    candidate: String
   }
 
   type SuccessMessage {

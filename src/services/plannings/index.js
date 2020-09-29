@@ -5,19 +5,31 @@ import resolvers from './resolvers'
 import typeDefs from './typeDefs'
 import Planning from './models/planning'
 import PlanningsDataSource from './planningsDataSource'
+import { initDeleteCandidateQueue, onDeleteCandidate } from './queues'
 
 const PORT = process.env.PLANNINGS_SERVICE_PORT
 const nameDB = process.env.PLANNINGS_MONGODB_NAME
 
-connectMongoose(nameDB)
+;(async () => {
+  connectMongoose(nameDB)
 
-const server = new ApolloServer({
-  schema: buildFederatedSchema([{ typeDefs, resolvers }]),
-  dataSources: () => ({
-    planningsAPI: new PlanningsDataSource(Planning),
-  }),
-})
+  const deleteCandidateQueue = await initDeleteCandidateQueue()
 
-server.listen({ port: PORT }, () => {
-  console.log(`Plannings service 🚀 ready at ${PORT} `)
-})
+  deleteCandidateQueue.listen(
+    { interval: 5000, maxReceivedCount: 5 },
+    (payload) => {
+      onDeleteCandidate(payload)
+    },
+  )
+
+  const server = new ApolloServer({
+    schema: buildFederatedSchema([{ typeDefs, resolvers }]),
+    dataSources: () => ({
+      planningsAPI: new PlanningsDataSource(Planning),
+    }),
+  })
+
+  server.listen({ port: PORT }, () => {
+    console.log(`Plannings service 🚀 ready at ${PORT} `)
+  })
+})()

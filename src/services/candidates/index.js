@@ -11,6 +11,7 @@ import {
   initDeleteInternshipQueue,
   onDeleteUser,
   onDeleteInternship,
+  initDeleteCandidateQueue,
 } from './queues'
 
 const PORT = process.env.CANDIDATES_SERVICE_PORT
@@ -21,15 +22,16 @@ const nameDB = process.env.CANDIDATES_MONGODB_NAME
 
   const deleteUserQueue = await initDeleteUserQueue()
   const deleteInternshipQueue = await initDeleteInternshipQueue()
+  const deleteCandidateQueue = await initDeleteCandidateQueue()
 
   deleteUserQueue.listen({ interval: 5000, maxReceivedCount: 5 }, (payload) => {
-    onDeleteUser(payload)
+    onDeleteUser(payload, deleteCandidateQueue)
   })
 
   deleteInternshipQueue.listen(
     { interval: 5000, maxReceivedCount: 5 },
     (payload) => {
-      onDeleteInternship(payload)
+      onDeleteInternship(payload, deleteCandidateQueue)
     },
   )
 
