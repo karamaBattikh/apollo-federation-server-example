@@ -1,7 +1,7 @@
 # apollo-federation-server-example
 
-apollo-federation-server-example
 yarn install
+
 yarn dev => "dev": "concurrently -k yarn:dev:*",
 
 oncurrently: We can run multiple commands at the same time using this package. It also has support for shortened commands with wildcards.
