@@ -6,6 +6,7 @@ const typeDefs = gql`
     interview
     accept
     untreated
+    final_acceptance
   }
 
   type Candidate @key(fields: "id") {

@@ -15,7 +15,13 @@ export const initDeleteInternshipQueue = async () => {
   return deleteInternshipQueue
 }
 
-export const onDeleteUser = async (payload) => {
+export const initDeleteCandidateQueue = async () => {
+  const deleteCandidateQueue = new Queue(redisSMQ, 'candidate_deleted')
+  await deleteCandidateQueue.createQueue()
+  return deleteCandidateQueue
+}
+
+export const onDeleteUser = async (payload, deleteCandidateQueue) => {
   const { userId } = JSON.parse(payload.message)
   let candidateList = []
 
@@ -23,18 +29,38 @@ export const onDeleteUser = async (payload) => {
     candidateList = reduce(
       docs,
       (acc, doc) => {
-        acc.push(doc.id)
+        if (doc.status === 'final_acceptance') acc.push(doc.id)
         doc.remove()
         return acc
       },
       [],
     )
-    console.log('onDeleteUser -> candidateList', candidateList)
+    if (candidateList.length > 0) {
+      deleteCandidateQueue.sendMessage(
+        JSON.stringify({ candidateIdList: candidateList }),
+      )
+    }
   })
 }
 
-export const onDeleteInternship = async (payload) => {
+export const onDeleteInternship = async (payload, deleteCandidateQueue) => {
   const { internshipId } = JSON.parse(payload.message)
+  let candidateList = []
 
-  await Candidate.deleteMany({ internship: internshipId })
+  await Candidate.find({ internship: internshipId }, (err, docs) => {
+    candidateList = reduce(
+      docs,
+      (acc, doc) => {
+        if (doc.status === 'final_acceptance') acc.push(doc.id)
+        doc.remove()
+        return acc
+      },
+      [],
+    )
+    if (candidateList.length > 0) {
+      deleteCandidateQueue.sendMessage(
+        JSON.stringify({ candidateIdList: candidateList }),
+      )
+    }
+  })
 }
